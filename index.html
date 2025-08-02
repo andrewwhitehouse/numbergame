@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Numbers Game</title>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
+    <script crossorigin src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.5/babel.min.js"></script>
+    <style>
+        /* Tailwind CSS utility classes - included inline for production */
+        * { box-sizing: border-box; }
+        body { margin: 0; font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif; }
+        .min-h-screen { min-height: 100vh; }
+        .bg-gradient-to-br { background-image: linear-gradient(to bottom right, var(--tw-gradient-stops)); }
+        .from-blue-50 { --tw-gradient-from: #eff6ff; --tw-gradient-to: rgb(239 246 255 / 0); --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to); }
+        .to-indigo-100 { --tw-gradient-to: #e0e7ff; }
+        .p-8 { padding: 2rem; }
+        .max-w-4xl { max-width: 56rem; }
+        .mx-auto { margin-left: auto; margin-right: auto; }
+        .bg-white { background-color: #ffffff; }
+        .rounded-xl { border-radius: 0.75rem; }
+        .shadow-lg { box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1); }
+        .text-3xl { font-size: 1.875rem; line-height: 2.25rem; }
+        .font-bold { font-weight: 700; }
+        .text-center { text-align: center; }
+        .text-gray-800 { color: #1f2937; }
+        .mb-8 { margin-bottom: 2rem; }
+        .mb-6 { margin-bottom: 1.5rem; }
+        .mb-4 { margin-bottom: 1rem; }
+        .mb-3 { margin-bottom: 0.75rem; }
+        .mb-2 { margin-bottom: 0.5rem; }
+        .mb-1 { margin-bottom: 0.25rem; }
+        .text-lg { font-size: 1.125rem; line-height: 1.75rem; }
+        .text-gray-600 { color: #4b5563; }
+        .flex { display: flex; }
+        .flex-wrap { flex-wrap: wrap; }
+        .justify-center { justify-content: center; }
+        .gap-4 { gap: 1rem; }
+        .gap-3 { gap: 0.75rem; }
+        .gap-2 { gap: 0.5rem; }
+        .w-16 { width: 4rem; }
+        .h-16 { height: 4rem; }
+        .items-center { align-items: center; }
+        .text-xl { font-size: 1.25rem; line-height: 1.75rem; }
+        .rounded-lg { border-radius: 0.5rem; }
+        .shadow-md { box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); }
+        .bg-red-100 { background-color: #fee2e2; }
+        .text-red-800 { color: #991b1b; }
+        .border-2 { border-width: 2px; }
+        .border-red-300 { border-color: #fca5a5; }
+        .bg-blue-100 { background-color: #dbeafe; }
+        .text-blue-800 { color: #1e40af; }
+        .border-blue-300 { border-color: #93c5fd; }
+        .bg-green-100 { background-color: #dcfce7; }
+        .border-green-300 { border-color: #86efac; }
+        .p-4 { padding: 1rem; }
+        .inline-block { display: inline-block; }
+        .text-sm { font-size: 0.875rem; line-height: 1.25rem; }
+        .text-green-700 { color: #15803d; }
+        .text-green-800 { color: #166534; }
+        .bg-gray-50 { background-color: #f9fafb; }
+        .font-semibold { font-weight: 600; }
+        .space-y-1 > * + * { margin-top: 0.25rem; }
+        .block { display: block; }
+        .font-medium { font-weight: 500; }
+        .text-gray-700 { color: #374151; }
+        .flex-1 { flex: 1 1 0%; }
+        .px-4 { padding-left: 1rem; padding-right: 1rem; }
+        .py-3 { padding-top: 0.75rem; padding-bottom: 0.75rem; }
+        .border { border-width: 1px; }
+        .border-gray-300 { border-color: #d1d5db; }
+        .focus\:ring-2:focus { box-shadow: 0 0 0 2px var(--tw-ring-color); }
+        .focus\:ring-blue-500:focus { --tw-ring-color: #3b82f6; }
+        .focus\:border-transparent:focus { border-color: transparent; }
+        .px-6 { padding-left: 1.5rem; padding-right: 1.5rem; }
+        .bg-blue-600 { background-color: #2563eb; }
+        .text-white { color: #ffffff; }
+        .hover\:bg-blue-700:hover { background-color: #1d4ed8; }
+        .transition-colors { transition-property: color, background-color, border-color, text-decoration-color, fill, stroke; transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1); transition-duration: 150ms; }
+        .bg-indigo-600 { background-color: #4f46e5; }
+        .hover\:bg-indigo-700:hover { background-color: #4338ca; }
+        .bg-yellow-50 { background-color: #fefce8; }
+        .border-yellow-200 { border-color: #fde047; }
+        .text-yellow-800 { color: #92400e; }
+        .text-yellow-700 { color: #a16207; }
+        .bg-yellow-600 { background-color: #ca8a04; }
+        .hover\:bg-yellow-700:hover { background-color: #a16207; }
+        .border-gray-200 { border-color: #e5e7eb; }
+        .px-3 { padding-left: 0.75rem; padding-right: 0.75rem; }
+        .py-1 { padding-top: 0.25rem; padding-bottom: 0.25rem; }
+        .rounded { border-radius: 0.25rem; }
+        .bg-green-50 { background-color: #f0fdf4; }
+        .bg-red-50 { background-color: #fef2f2; }
+        .space-y-2 > * + * { margin-top: 0.5rem; }
+        .max-h-64 { max-height: 16rem; }
+        .overflow-y-auto { overflow-y: auto; }
+        .mt-3 { margin-top: 0.75rem; }
+        .bg-gray-600 { background-color: #4b5563; }
+        .hover\:bg-gray-700:hover { background-color: #374151; }
+        .justify-between { justify-content: space-between; }
+        input { outline: none; }
+        input:focus { ring: 2px solid #3b82f6; border-color: transparent; }
+        button { cursor: pointer; border: none; outline: none; }
+        .icon { width: 1.25rem; height: 1.25rem; }
+        .icon-sm { width: 1rem; height: 1rem; }
+    </style>
+</head>
+<body>
+    <div id="root"></div>
+
+    <script type="text/babel">
+        const { useState, useEffect } = React;
+
+        // Simple icon components to replace Lucide
+        const RefreshCw = ({ size = 20 }) => (
+            <svg className="icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="23 4 23 10 17 10"></polyline>
+                <polyline points="1 20 1 14 7 14"></polyline>
+                <path d="m3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"></path>
+            </svg>
+        );
+
+        const Check = ({ size = 20 }) => (
+            <svg className="icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12"></polyline>
+            </svg>
+        );
+
+        const X = ({ size = 20 }) => (
+            <svg className="icon" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18"></line>
+                <line x1="6" y1="6" x2="18" y2="18"></line>
+            </svg>
+        );
+
+        const Play = ({ size = 16 }) => (
+            <svg className="icon-sm" width={size} height={size} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <polygon points="5 3 19 12 5 21 5 3"></polygon>
+            </svg>
+        );
+
+        // Utility functions for expression evaluation
+        const evaluateLeftToRight = (expression) => {
+            // Remove spaces and handle parentheses first
+            let expr = expression.replace(/\s/g, '');
+            
+            // Handle parentheses by evaluating innermost first
+            while (expr.includes('(')) {
+                const lastOpen = expr.lastIndexOf('(');
+                const firstClose = expr.indexOf(')', lastOpen);
+                
+                if (firstClose === -1) {
+                    throw new Error('Mismatched parentheses');
+                }
+                
+                const innerExpr = expr.substring(lastOpen + 1, firstClose);
+                const innerResult = evaluateSimpleLeftToRight(innerExpr);
+                expr = expr.substring(0, lastOpen) + innerResult + expr.substring(firstClose + 1);
+            }
+            
+            return evaluateSimpleLeftToRight(expr);
+        };
+
+        // Evaluate simple expression (no parentheses) left to right
+        const evaluateSimpleLeftToRight = (expr) => {
+            // Split into tokens (numbers and operators)
+            const tokens = expr.match(/\d+|[+\-*/]/g);
+            
+            if (!tokens || tokens.length === 0) {
+                throw new Error('Invalid expression');
+            }
+            
+            let result = parseFloat(tokens[0]);
+            
+            for (let i = 1; i < tokens.length; i += 2) {
+                const operator = tokens[i];
+                const operand = parseFloat(tokens[i + 1]);
+                
+                if (isNaN(operand)) {
+                    throw new Error('Invalid number');
+                }
+                
+                switch (operator) {
+                    case '+':
+                        result = result + operand;
+                        break;
+                    case '-':
+                        result = result - operand;
+                        break;
+                    case '*':
+                        result = result * operand;
+                        break;
+                    case '/':
+                        if (operand === 0) {
+                            throw new Error('Division by zero');
+                        }
+                        result = result / operand;
+                        break;
+                    default:
+                        throw new Error('Invalid operator');
+                }
+            }
+            
+            return result;
+        };
+
+        // Validation function
+        const validateSolution = (solution, availableNumbers, target) => {
+            if (!solution.trim()) {
+                return { isValid: false, error: 'Please enter a solution!' };
+            }
+
+            // Basic validation - check if only allowed characters are used
+            const allowedChars = /^[0-9+\-*/() ]+$/;
+            if (!allowedChars.test(solution)) {
+                return { isValid: false, error: 'Please use only numbers, +, -, *, /, and parentheses' };
+            }
+
+            // Extract numbers from the solution
+            const numbersInSolution = solution.match(/\d+/g)?.map(Number) || [];
+            
+            // Check if all numbers used are from the available set
+            const availableNumbersCopy = [...availableNumbers];
+            for (const num of numbersInSolution) {
+                const index = availableNumbersCopy.indexOf(num);
+                if (index === -1) {
+                    return { isValid: false, error: `Number ${num} is not available or used too many times` };
+                }
+                availableNumbersCopy.splice(index, 1);
+            }
+
+            try {
+                // Evaluate the expression left to right
+                const result = evaluateLeftToRight(solution);
+                
+                if (Math.abs(result - target) < 0.001) { // Account for floating point precision
+                    return { isValid: true, result };
+                } else {
+                    return { isValid: false, error: `Your solution equals ${result}, but the target is ${target}` };
+                }
+            } catch (error) {
+                return { isValid: false, error: `Invalid expression: ${error.message}` };
+            }
+        };
+
+        // Unit Tests Component
+        const UnitTests = () => {
+            const [testResults, setTestResults] = useState([]);
+            const [showTests, setShowTests] = useState(false);
+
+            const runTests = () => {
+                const tests = [
+                    // Left-to-right evaluation tests
+                    {
+                        name: 'Left-to-right: 2 + 3 * 4 should equal 20',
+                        test: () => evaluateLeftToRight('2 + 3 * 4') === 20
+                    },
+                    {
+                        name: 'Left-to-right: 10 - 3 + 2 should equal 9',
+                        test: () => evaluateLeftToRight('10 - 3 + 2') === 9
+                    },
+                    {
+                        name: 'Left-to-right: 8 / 2 * 3 should equal 12',
+                        test: () => evaluateLeftToRight('8 / 2 * 3') === 12
+                    },
+                    
+                    // Parentheses tests
+                    {
+                        name: 'Parentheses: (50 * 10) + (8 * 7) should equal 556',
+                        test: () => evaluateLeftToRight('(50 * 10) + (8 * 7)') === 556
+                    },
+                    {
+                        name: 'Nested parentheses: ((2 + 3) * 4) - 1 should equal 19',
+                        test: () => evaluateLeftToRight('((2 + 3) * 4) - 1') === 19
+                    },
+                    
+                    // Single number tests
+                    {
+                        name: 'Single number: 42 should equal 42',
+                        test: () => evaluateLeftToRight('42') === 42
+                    },
+                    
+                    // Division tests
+                    {
+                        name: 'Division: 15 / 3 should equal 5',
+                        test: () => evaluateLeftToRight('15 / 3') === 5
+                    },
+                    {
+                        name: 'Division with decimals: 7 / 2 should equal 3.5',
+                        test: () => evaluateLeftToRight('7 / 2') === 3.5
+                    },
+                    
+                    // Error handling tests
+                    {
+                        name: 'Division by zero should throw error',
+                        test: () => {
+                            try {
+                                evaluateLeftToRight('5 / 0');
+                                return false;
+                            } catch (e) {
+                                return e.message === 'Division by zero';
+                            }
+                        }
+                    },
+                    {
+                        name: 'Mismatched parentheses should throw error',
+                        test: () => {
+                            try {
+                                evaluateLeftToRight('(2 + 3');
+                                return false;
+                            } catch (e) {
+                                return e.message === 'Mismatched parentheses';
+                            }
+                        }
+                    },
+                    
+                    // Validation tests
+                    {
+                        name: 'Valid solution should pass validation',
+                        test: () => {
+                            const result = validateSolution('50 + 8', [50, 8, 3, 7, 2, 10], 58);
+                            return result.isValid === true;
+                        }
+                    },
+                    {
+                        name: 'Invalid number usage should fail validation',
+                        test: () => {
+                            const result = validateSolution('50 + 99', [50, 8, 3, 7, 2, 10], 149);
+                            return result.isValid === false && result.error.includes('99 is not available');
+                        }
+                    },
+                    {
+                        name: 'Duplicate number usage should fail validation',
+                        test: () => {
+                            const result = validateSolution('50 + 50', [50, 8, 3, 7, 2, 10], 100);
+                            return result.isValid === false && result.error.includes('used too many times');
+                        }
+                    },
+                    {
+                        name: 'Wrong target should fail validation',
+                        test: () => {
+                            const result = validateSolution('50 + 8', [50, 8, 3, 7, 2, 10], 100);
+                            return result.isValid === false && result.error.includes('equals 58, but the target is 100');
+                        }
+                    },
+                    {
+                        name: 'Invalid characters should fail validation',
+                        test: () => {
+                            const result = validateSolution('50 ^ 8', [50, 8, 3, 7, 2, 10], 58);
+                            return result.isValid === false && result.error.includes('only numbers, +, -, *, /, and parentheses');
+                        }
+                    }
+                ];
+
+                const results = tests.map(test => ({
+                    name: test.name,
+                    passed: test.test()
+                }));
+
+                setTestResults(results);
+                setShowTests(true);
+            };
+
+            if (!showTests) {
+                return (
+                    <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
+                        <h3 className="font-semibold text-yellow-800 mb-2">Unit Tests</h3>
+                        <p className="text-sm text-yellow-700 mb-3">
+                            This application includes comprehensive unit tests for the expression evaluator and validation logic.
+                        </p>
+                        <button
+                            onClick={runTests}
+                            className="px-4 py-3 bg-yellow-600 text-white rounded hover:bg-yellow-700 transition-colors flex items-center gap-2"
+                        >
+                            <Play size={16} />
+                            Run Unit Tests
+                        </button>
+                    </div>
+                );
+            }
+
+            const passedTests = testResults.filter(t => t.passed).length;
+            const totalTests = testResults.length;
+
+            return (
+                <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
+                    <div className="flex justify-between items-center mb-3">
+                        <h3 className="font-semibold text-gray-800">Unit Test Results</h3>
+                        <div className={`px-3 py-1 rounded text-sm font-medium ${
+                            passedTests === totalTests 
+                                ? 'bg-green-100 text-green-800' 
+                                : 'bg-red-100 text-red-800'
+                        }`}>
+                            {passedTests}/{totalTests} Passed
+                        </div>
+                    </div>
+                    
+                    <div className="space-y-2 max-h-64 overflow-y-auto">
+                        {testResults.map((result, index) => (
+                            <div
+                                key={index}
+                                className={`flex items-center gap-2 p-4 rounded text-sm ${
+                                    result.passed 
+                                        ? 'bg-green-50 text-green-800' 
+                                        : 'bg-red-50 text-red-800'
+                                }`}
+                            >
+                                {result.passed ? <Check size={16} /> : <X size={16} />}
+                                <span className={result.passed ? '' : 'font-medium'}>
+                                    {result.name}
+                                </span>
+                            </div>
+                        ))}
+                    </div>
+                    
+                    <button
+                        onClick={() => setShowTests(false)}
+                        className="mt-3 px-3 py-1 bg-gray-600 text-white rounded text-sm hover:bg-gray-700 transition-colors"
+                    >
+                        Hide Tests
+                    </button>
+                </div>
+            );
+        };
+
+        const CountdownNumbersGame = () => {
+            const [gameNumbers, setGameNumbers] = useState([]);
+            const [target, setTarget] = useState(0);
+            const [userSolution, setUserSolution] = useState('');
+            const [feedback, setFeedback] = useState('');
+            const [feedbackType, setFeedbackType] = useState('');
+
+            // Generate random numbers for the game
+            const generateGame = () => {
+                const numbers = [];
+                const largeNumbers = [25, 50, 75, 100];
+                
+                // Randomly select some large numbers (1-4 of them)
+                const numLargeNumbers = Math.floor(Math.random() * 4) + 1; // 1 to 4 large numbers
+                const selectedLargeNumbers = [];
+                const availableLarge = [...largeNumbers];
+                
+                for (let i = 0; i < numLargeNumbers; i++) {
+                    const randomIndex = Math.floor(Math.random() * availableLarge.length);
+                    selectedLargeNumbers.push(availableLarge[randomIndex]);
+                    availableLarge.splice(randomIndex, 1);
+                }
+                
+                // Fill the rest with small numbers (1-9)
+                const numSmallNumbers = 6 - numLargeNumbers;
+                for (let i = 0; i < numSmallNumbers; i++) {
+                    numbers.push(Math.floor(Math.random() * 9) + 1);
+                }
+                
+                // Combine all numbers
+                const allNumbers = [...numbers, ...selectedLargeNumbers];
+                
+                // Generate target between 200-999
+                const newTarget = Math.floor(Math.random() * 800) + 200;
+                
+                setGameNumbers(allNumbers);
+                setTarget(newTarget);
+                setUserSolution('');
+                setFeedback('');
+                setFeedbackType('');
+            };
+
+            // Check if the user's solution is valid
+            const checkSolution = () => {
+                const validation = validateSolution(userSolution, gameNumbers, target);
+                
+                if (validation.isValid) {
+                    setFeedback('Correct! Well done!');
+                    setFeedbackType('success');
+                } else {
+                    setFeedback(validation.error);
+                    setFeedbackType('error');
+                }
+            };
+
+            // Generate initial game on component mount
+            useEffect(() => {
+                generateGame();
+            }, []);
+
+            return (
+                <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 p-8">
+                    <div className="max-w-4xl mx-auto">
+                        <div className="bg-white rounded-xl shadow-lg p-8">
+                            <h1 className="text-3xl font-bold text-center text-gray-800 mb-8">
+                                Countdown Numbers Game
+                            </h1>
+                            
+                            {/* Unit Tests */}
+                            <UnitTests />
+                            
+                            <div className="text-center mb-8">
+                                <p className="text-lg text-gray-600 mb-4">
+                                    Use these 6 numbers to make the target exactly:
+                                </p>
+                                
+                                {/* Display the numbers */}
+                                <div className="flex flex-wrap justify-center gap-4 mb-6">
+                                    {gameNumbers.map((number, index) => (
+                                        <div
+                                            key={index}
+                                            className={`w-16 h-16 flex items-center justify-center text-xl font-bold rounded-lg shadow-md ${
+                                                number > 10 
+                                                    ? 'bg-red-100 text-red-800 border-2 border-red-300' 
+                                                    : 'bg-blue-100 text-blue-800 border-2 border-blue-300'
+                                            }`}
+                                        >
+                                            {number}
+                                        </div>
+                                    ))}
+                                </div>
+                                
+                                {/* Display the target */}
+                                <div className="bg-green-100 border-2 border-green-300 rounded-lg p-4 inline-block">
+                                    <p className="text-sm text-green-700 mb-1">Target:</p>
+                                    <p className="text-3xl font-bold text-green-800">{target}</p>
+                                </div>
+                            </div>
+
+                            {/* Rules */}
+                            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                                <h3 className="font-semibold text-gray-800 mb-2">Rules:</h3>
+                                <ul className="text-sm text-gray-600 space-y-1">
+                                    <li>• Use +, -, ×, ÷ operations (type *, / for multiply/divide)</li>
+                                    <li>• Operations are evaluated left to right (no operator precedence)</li>
+                                    <li>• You don't need to use all 6 numbers</li>
+                                    <li>• Each number can only be used once</li>
+                                    <li>• Use parentheses to group operations</li>
+                                </ul>
+                            </div>
+
+                            {/* Example usage */}
+                            <div className="bg-gray-50 rounded-lg p-4 mb-6">
+                                <h3 className="font-semibold text-gray-800 mb-2">Examples:</h3>
+                                <div className="text-sm text-gray-600 space-y-1">
+                                    <p>• Numbers: 50, 8, 3, 7, 2, 10 → Target: 556 → Solution: (50 * 10) + (8 * 7)</p>
+                                    <p>• Left-to-right: 2 + 3 * 4 = 20 (not 14)</p>
+                                </div>
+                            </div>
+
+                            {/* Solution input */}
+                            <div className="mb-6">
+                                <label className="block text-sm font-medium text-gray-700 mb-2">
+                                    Enter your solution:
+                                </label>
+                                <div className="flex gap-3">
+                                    <input
+                                        type="text"
+                                        value={userSolution}
+                                        onChange={(e) => setUserSolution(e.target.value)}
+                                        placeholder="e.g., (50 * 8) + (7 * 2)"
+                                        className="flex-1 px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
+                                        onKeyPress={(e) => e.key === 'Enter' && checkSolution()}
+                                    />
+                                    <button
+                                        onClick={checkSolution}
+                                        className="px-6 py-3 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors flex items-center gap-2"
+                                    >
+                                        <Check size={20} />
+                                        Check
+                                    </button>
+                                </div>
+                            </div>
+
+                            {/* Feedback */}
+                            {feedback && (
+                                <div className={`p-4 rounded-lg mb-6 flex items-center gap-2 ${
+                                    feedbackType === 'success' 
+                                        ? 'bg-green-100 text-green-800 border border-green-300' 
+                                        : 'bg-red-100 text-red-800 border border-red-300'
+                                }`}>
+                                    {feedbackType === 'success' ? <Check size={20} /> : <X size={20} />}
+                                    {feedback}
+                                </div>
+                            )}
+
+                            {/* New Game Button */}
+                            <div className="text-center">
+                                <button
+                                    onClick={generateGame}
+                                    className="px-6 py-3 bg-indigo-600 text-white rounded-lg hover:bg-indigo-700 transition-colors flex items-center gap-2 mx-auto"
+                                >
+                                    <RefreshCw size={20} />
+                                    New Game
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            );
+        };
+
+        // Render the app
+        ReactDOM.render(<CountdownNumbersGame />, document.getElementById('root'));
+    </script>
+</body>
+</html>
